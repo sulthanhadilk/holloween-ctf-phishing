@@ -183,12 +183,9 @@
             {{ form.consent(id="consent", aria_required="true") }}
             <label class="consent-text" for="consent">
               <strong>I agree to the following:</strong>
-              My registration details (name, email, phone number) and any submitted photo will be collected
-              and stored securely by the NIGHTMARE CTF organisers solely for the purpose of managing my
-              competition entry. Photos are used only to verify participant identity for the event.
-              Data will not be shared with third parties and will be deleted within 90 days of the event
-              closing. I confirm I am at least 16 years of age and that the information I have provided
-              is accurate.
+              This demo validates the details you enter but does not store your name, email, phone number,
+              or submitted photo. I confirm I am at least 16 years of age and that the information I have
+              provided is accurate.
             </label>
           </div>
           {% if form.consent.errors %}
