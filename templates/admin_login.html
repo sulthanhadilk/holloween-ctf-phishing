@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Admin Login — NIGHTMARE CTF{% endblock %}
+
+{% block body %}
+<header class="hero" style="min-height:180px;" role="banner">
+  <div class="hero-content">
+    <p class="hero-eyebrow">▶&nbsp; RESTRICTED AREA &nbsp;▶</p>
+    <h1>NIGHTMARE&nbsp;<span class="ctf">CTF</span></h1>
+  </div>
+</header>
+
+<main>
+  <div class="pumpkin-strip" aria-hidden="true">🔒 💀 🔒</div>
+
+  <section class="card admin-login-card" aria-labelledby="admin-login-title">
+    <div class="card-header">
+      <span class="skull" aria-hidden="true">🔐</span>
+      <div>
+        <h2 class="card-title" id="admin-login-title">Admin Access</h2>
+        <p class="card-subtitle">// restricted_zone.sh</p>
+      </div>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul class="flash-list" role="alert" aria-live="polite">
+          {% for cat, msg in messages %}
+            <li class="{{ cat }}">{% if cat=='success'%}✅{% else %}⚠️{% endif %} {{ msg }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('admin_login') }}">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <div class="form-group">
+        <label for="admin-password">Admin Password</label>
+        <div class="input-wrap">
+          <span class="input-icon" aria-hidden="true">🔑</span>
+          <input
+            type="password"
+            id="admin-password"
+            name="password"
+            required
+            autocomplete="current-password"
+            placeholder="Enter admin password"
+            aria-required="true"
+          >
+        </div>
+      </div>
+      <button type="submit" id="admin-login-btn" class="btn-submit">
+        🔐 &nbsp;AUTHENTICATE
+      </button>
+    </form>
+  </section>
+</main>
+{% endblock %}

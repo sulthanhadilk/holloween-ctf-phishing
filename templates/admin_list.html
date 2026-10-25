@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}Admin — Registrations — NIGHTMARE CTF{% endblock %}
+
+{% block body %}
+<header class="hero" style="min-height:160px;" role="banner">
+  <div class="hero-content">
+    <p class="hero-eyebrow">▶&nbsp; ADMIN PANEL — RESTRICTED &nbsp;▶</p>
+    <h1>NIGHTMARE&nbsp;<span class="ctf">CTF</span></h1>
+  </div>
+</header>
+
+<main class="admin-wrap">
+  <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; margin-bottom:1.5rem;">
+    <h2>💀 Contestant Registrations ({{ rows|length }})</h2>
+    <a href="{{ url_for('admin_logout') }}" class="btn-back" id="admin-logout-btn">Logout →</a>
+  </div>
+
+  {% if rows %}
+  <div style="overflow-x:auto;">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Full Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Photo</th>
+          <th>Registered At</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in rows %}
+        <tr>
+          <td>{{ row.id }}</td>
+          <td>{{ row.full_name }}</td>
+          <td>{{ row.email }}</td>
+          <td>{{ row.phone }}</td>
+          <td>
+            {% if row.photo_path %}
+              <a href="{{ url_for('admin_upload', filename=row.photo_path) }}"
+                 target="_blank" rel="noopener" style="color:var(--clr-purple);">View</a>
+            {% else %}
+              <span style="opacity:.4">—</span>
+            {% endif %}
+          </td>
+          <td>{{ row.registered_at }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+    <p style="font-family:var(--ff-mono); color:var(--clr-text-dim); text-align:center; padding:3rem;">
+      No registrations yet. The graveyard is empty... 👻
+    </p>
+  {% endif %}
+</main>
+{% endblock %}

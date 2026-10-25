@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Register for NIGHTMARE CTF — the ultimate Halloween Capture The Flag cybersecurity competition. Face the darkness, prove your skills.">
+  <title>{% block title %}NIGHTMARE CTF — Register Now{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎃</text></svg>">
+</head>
+<body>
+
+  <!-- Ambient background layers -->
+  <div class="bg-layer" aria-hidden="true">
+    <div class="stars"></div>
+    <div class="fog"></div>
+    <div class="fog fog2"></div>
+  </div>
+
+  <!-- Floating bats -->
+  <div class="bats-container" aria-hidden="true">
+    <span class="bat">🦇</span>
+    <span class="bat">🦇</span>
+    <span class="bat">🦇</span>
+    <span class="bat">🦇</span>
+    <span class="bat">🦇</span>
+  </div>
+
+  {% block body %}{% endblock %}
+
+  <footer>
+    <p>🕸️ &copy; 2026 NIGHTMARE CTF &nbsp;|&nbsp; All contestant data is handled securely &nbsp;|&nbsp; 🕸️</p>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Registered! — NIGHTMARE CTF{% endblock %}
+
+{% block body %}
+<header class="hero" style="min-height:200px;" role="banner">
+  <div class="hero-content">
+    <p class="hero-eyebrow">▶&nbsp; REGISTRATION CONFIRMED &nbsp;▶</p>
+    <h1>NIGHTMARE&nbsp;<span class="ctf">CTF</span></h1>
+  </div>
+</header>
+
+<main>
+  <div class="pumpkin-strip" aria-hidden="true">🎃 💀 🕷️ 🎃 🕸️ 💀 🎃</div>
+
+  <section class="card success-card" aria-labelledby="success-heading">
+    <div class="success-icon" role="img" aria-label="Jack-o-lantern">🎃</div>
+    <h2 class="success-title" id="success-heading">You've Entered The Nightmare!</h2>
+    <p class="success-body">
+      Your registration has been received. Prepare your mind, sharpen your skills, and
+      get ready to face the darkness on Halloween night.<br><br>
+      Watch your inbox for further instructions. The ghosts are already watching. 👻
+    </p>
+    <a href="{{ url_for('index') }}" class="btn-back" id="back-to-home-btn">
+      ← Back to Registration
+    </a>
+  </section>
+</main>
+{% endblock %}
