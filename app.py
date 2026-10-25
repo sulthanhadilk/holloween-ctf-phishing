@@ -29,11 +29,15 @@ app.config["SESSION_COOKIE_HTTPONLY"] = True
 app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
 app.config["MAX_CONTENT_LENGTH"] = 5 * 1024 * 1024  # 5 MB
 
-UPLOAD_FOLDER = os.path.join(app.root_path, "uploads")
+# ── Vercel serverless: /tmp is the only writable directory ──────────────────
+# Locally the files live next to app.py; on Vercel they go to /tmp.
+IS_VERCEL = os.environ.get("VERCEL") == "1"
+
+UPLOAD_FOLDER = "/tmp/uploads" if IS_VERCEL else os.path.join(app.root_path, "uploads")
 ALLOWED_EXTENSIONS = {"jpg", "jpeg", "png", "webp"}
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
-DATABASE = os.path.join(app.root_path, "registrations.db")
+DATABASE = "/tmp/registrations.db" if IS_VERCEL else os.path.join(app.root_path, "registrations.db")
 
 ADMIN_PASSWORD_HASH = os.environ.get(
     "ADMIN_PASSWORD_HASH",
@@ -80,6 +84,11 @@ def init_db():
     )
     db.commit()
     db.close()
+
+
+# Initialise DB at import time so it runs on every serverless cold start,
+# not only when the script is executed directly.
+init_db()
 
 
 # ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -246,6 +255,6 @@ def server_error(e):
 
 # ─── Entry Point ──────────────────────────────────────────────────────────────
 if __name__ == "__main__":
-    init_db()
+    # init_db() already called at module level above
     debug_mode = os.environ.get("FLASK_DEBUG", "false").lower() == "true"
     app.run(host="127.0.0.1", port=5000, debug=debug_mode)
